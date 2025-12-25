@@ -243,15 +243,18 @@
                                     'Onyx'
                                 ];
 
-                                // Get one catalog per category with image
-                                $categoryImages = \App\Models\Catalog::select('type', 'image', 'name')
-                                    ->whereNotNull('type')
-                                    ->where('type', '!=', '')
-                                    ->where('status', true)
-                                    ->whereNotNull('image')
-                                    ->groupBy('type')
-                                    ->get()
-                                    ->keyBy('type');
+
+                                // Get one catalog per category with image (avoiding GROUP BY issue)
+                                $categoryImages = [];
+                                foreach ($categories as $cat) {
+                                    $catalog = \App\Models\Catalog::where('type', $cat)
+                                        ->where('status', true)
+                                        ->whereNotNull('image')
+                                        ->first();
+                                    if ($catalog) {
+                                        $categoryImages[$cat] = $catalog;
+                                    }
+                                }
                             @endphp
                             @foreach($categories as $cat)
                                 <a href="{{ route('products.index', ['category' => $cat]) }}" class="category-card">
