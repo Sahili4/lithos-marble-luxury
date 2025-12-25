@@ -25,11 +25,12 @@
             display: none;
             position: absolute;
             background-color: rgba(26, 26, 26, 0.98);
-            min-width: 200px;
+            min-width: 220px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             z-index: 1000;
             border-radius: 8px;
-            margin-top: 10px;
+            margin-top: 5px;
+            padding: 10px 0;
         }
 
         .dropdown-content a {
@@ -38,7 +39,7 @@
             text-decoration: none;
             display: block;
             transition: all 0.3s;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .dropdown-content a:last-child {
@@ -51,7 +52,9 @@
             padding-left: 25px;
         }
 
-        .dropdown:hover .dropdown-content {
+        /* Keep dropdown open when hovering over dropdown or content */
+        .dropdown:hover .dropdown-content,
+        .dropdown-content:hover {
             display: block;
         }
 
@@ -184,7 +187,7 @@
             <ul class="nav-links">
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li class="dropdown">
-                    <a href="#collection" class="dropbtn">
+                    <a href="{{ route('products.index') }}" class="dropbtn">
                         Products <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="dropdown-content">
@@ -198,16 +201,16 @@
                                 ->pluck('type');
                         @endphp
                         @foreach($categories as $cat)
-                            <a href="{{ route('home') }}?category={{ urlencode($cat) }}">{{ $cat }}</a>
+                            <a href="{{ route('products.index', ['category' => $cat]) }}">{{ $cat }}</a>
                         @endforeach
                     </div>
                 </li>
-                <li><a href="#philosophy">History</a></li>
-                <li><a href="#legacy">Culture</a></li>
-                <li><a href="#portfolio">Testimonials</a></li>
-                <li><a href="#services">Blog</a></li>
-                <li><a href="#contact">Contact Us</a></li>
-                <li><a href="#process">About Us</a></li>
+                <li><a href="{{ route('home') }}#philosophy">History</a></li>
+                <li><a href="{{ route('home') }}#legacy">Culture</a></li>
+                <li><a href="{{ route('home') }}#portfolio">Testimonials</a></li>
+                <li><a href="{{ route('home') }}#services">Blog</a></li>
+                <li><a href="{{ route('home') }}#contact">Contact Us</a></li>
+                <li><a href="{{ route('home') }}#process">About Us</a></li>
             </ul>
             <div class="menu-btn-mobile">Menu</div>
         </nav>

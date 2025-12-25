@@ -18,8 +18,10 @@ use Illuminate\Support\Facades\Route;
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/products', [\App\Http\Controllers\ProductsController::class, 'index'])->name('products.index');
 Route::get('/catalog/{slug}', [CatalogDetailController::class, 'show'])->name('catalog.detail');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
+
 
 // Admin Routes (Protected by Auth)
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
