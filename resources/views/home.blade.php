@@ -25,73 +25,34 @@
             display: none;
             position: absolute;
             background-color: rgba(26, 26, 26, 0.98);
-            min-width: 600px;
-            max-width: 800px;
+            min-width: 220px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            border-radius: 12px;
-            margin-top: 10px;
-            padding: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .dropdown-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .category-card {
-            position: relative;
             border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s;
+            margin-top: 5px;
+            padding: 10px 0;
+        }
+
+        .dropdown-content a {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
             text-decoration: none;
             display: block;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(201, 169, 97, 0.3);
+        .dropdown-content a:last-child {
+            border-bottom: none;
         }
 
-        .category-image {
-            width: 100%;
-            aspect-ratio: 1;
-            overflow: hidden;
-            position: relative;
+        .dropdown-content a:hover {
+            background-color: rgba(201, 169, 97, 0.2);
+            color: #c9a961;
+            padding-left: 25px;
         }
 
-        .category-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .category-card:hover .category-image img {
-            transform: scale(1.1);
-        }
-
-        .category-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.8));
-            display: flex;
-            align-items: flex-end;
-            padding: 10px;
-        }
-
-        .category-name {
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-transform: capitalize;
-            letter-spacing: 0.5px;
-        }
-
-        /* Keep dropdown open when hovering over dropdown or content */
+        /* Keep dropdown open when hovering */
         .dropdown:hover .dropdown-content,
         .dropdown-content:hover {
             display: block;
