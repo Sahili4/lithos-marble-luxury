@@ -178,9 +178,6 @@
         <div class="loader-logo">LITHOS</div>
     </div>
 
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-
     <header>
         <nav>
             <div class="logo">LITHOS</div>
@@ -191,13 +188,18 @@
                         Products <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="dropdown-content">
-                        <a href="{{ route('home') }}?category=Italian+Marbles">Italian Marbles</a>
-                        <a href="{{ route('home') }}?category=Indian+Marble">Indian Marble</a>
-                        <a href="{{ route('home') }}?category=Granites">Granites</a>
-                        <a href="{{ route('home') }}?category=Limestones">Limestones</a>
-                        <a href="{{ route('home') }}?category=Quartzites">Quartzites</a>
-                        <a href="{{ route('home') }}?category=Sandstones">Sandstones</a>
-                        <a href="{{ route('home') }}?category=Onyx">Onyx</a>
+                        @php
+                            $categories = \App\Models\Catalog::select('type')
+                                ->whereNotNull('type')
+                                ->where('type', '!=', '')
+                                ->where('status', true)
+                                ->distinct()
+                                ->orderBy('type')
+                                ->pluck('type');
+                        @endphp
+                        @foreach($categories as $cat)
+                            <a href="{{ route('home') }}?category={{ urlencode($cat) }}">{{ $cat }}</a>
+                        @endforeach
                     </div>
                 </li>
                 <li><a href="#philosophy">History</a></li>
@@ -522,22 +524,7 @@
             observer.observe(el);
         });
 
-        // Custom Cursor
-        const dot = document.querySelector('.cursor-dot');
-        const outline = document.querySelector('.cursor-outline');
 
-        window.addEventListener('mousemove', (e) => {
-            const posX = e.clientX;
-            const posY = e.clientY;
-
-            dot.style.left = `${posX}px`;
-            dot.style.top = `${posY}px`;
-
-            outline.animate({
-                left: `${posX}px`,
-                top: `${posY}px`
-            }, { duration: 500, fill: "forwards" });
-        });
 
         // 3D Tilt Effect for Cards
         document.querySelectorAll('.tilt-card').forEach(card => {
