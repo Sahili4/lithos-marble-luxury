@@ -63,70 +63,31 @@
             display: none;
             position: absolute;
             background-color: rgba(26, 26, 26, 0.98);
-            min-width: 600px;
-            max-width: 800px;
+            min-width: 220px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
             z-index: 1000;
-            border-radius: 12px;
-            margin-top: 10px;
-            padding: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .dropdown-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 15px;
-        }
-
-        .category-card {
-            position: relative;
             border-radius: 8px;
-            overflow: hidden;
-            transition: all 0.3s;
+            margin-top: 5px;
+            padding: 10px 0;
+        }
+
+        .dropdown-content a {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
             text-decoration: none;
             display: block;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
-        .category-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(201, 169, 97, 0.3);
+        .dropdown-content a:last-child {
+            border-bottom: none;
         }
 
-        .category-image {
-            width: 100%;
-            aspect-ratio: 1;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .category-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s;
-        }
-
-        .category-card:hover .category-image img {
-            transform: scale(1.1);
-        }
-
-        .category-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(to bottom, transparent 40%, rgba(0, 0, 0, 0.8));
-            display: flex;
-            align-items: flex-end;
-            padding: 10px;
-        }
-
-        .category-name {
-            color: white;
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-transform: capitalize;
-            letter-spacing: 0.5px;
+        .dropdown-content a:hover {
+            background-color: rgba(201, 169, 97, 0.2);
+            color: #c9a961;
+            padding-left: 25px;
         }
 
         /* Keep dropdown open when hovering */
@@ -349,35 +310,9 @@
                         Products <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="dropdown-content">
-                        <div class="dropdown-grid">
-                            @php
-                                // Get one catalog per category with image (avoiding GROUP BY issue)
-                                $categoryImages = [];
-                                foreach ($categories as $cat) {
-                                    $catalog = \App\Models\Catalog::where('type', $cat)
-                                        ->where('status', true)
-                                        ->whereNotNull('image')
-                                        ->first();
-                                    if ($catalog) {
-                                        $categoryImages[$cat] = $catalog;
-                                    }
-                                }
-                            @endphp
-                            @foreach($categories as $cat)
-                                <a href="{{ route('products.index', ['category' => $cat]) }}" class="category-card">
-                                    <div class="category-image">
-                                        @if(isset($categoryImages[$cat]))
-                                            <img src="{{ asset('public/' . $categoryImages[$cat]->image) }}" alt="{{ $cat }}">
-                                        @else
-                                            <img src="{{ asset('public/assets/images/calacatta.png') }}" alt="{{ $cat }}">
-                                        @endif
-                                        <div class="category-overlay">
-                                            <span class="category-name">{{ $cat }}</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
+                        @foreach($categories as $cat)
+                            <a href="{{ route('products.index', ['category' => $cat]) }}">{{ $cat }}</a>
+                        @endforeach
                     </div>
                 </li>
                 <li><a href="{{ route('home') }}#philosophy">History</a></li>

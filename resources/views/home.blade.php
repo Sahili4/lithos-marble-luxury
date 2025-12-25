@@ -230,47 +230,20 @@
                         Products <i class="fas fa-chevron-down"></i>
                     </a>
                     <div class="dropdown-content">
-                        <div class="dropdown-grid">
-                            @php
-                                // Fixed categories
-                                $categories = [
-                                    'Italian marbles',
-                                    'Indian Marble',
-                                    'Granites',
-                                    'Limestones',
-                                    'quartzites',
-                                    'Sandstones',
-                                    'Onyx'
-                                ];
-
-
-                                // Get one catalog per category with image (avoiding GROUP BY issue)
-                                $categoryImages = [];
-                                foreach ($categories as $cat) {
-                                    $catalog = \App\Models\Catalog::where('type', $cat)
-                                        ->where('status', true)
-                                        ->whereNotNull('image')
-                                        ->first();
-                                    if ($catalog) {
-                                        $categoryImages[$cat] = $catalog;
-                                    }
-                                }
-                            @endphp
-                            @foreach($categories as $cat)
-                                <a href="{{ route('products.index', ['category' => $cat]) }}" class="category-card">
-                                    <div class="category-image">
-                                        @if(isset($categoryImages[$cat]))
-                                            <img src="{{ asset('public/' . $categoryImages[$cat]->image) }}" alt="{{ $cat }}">
-                                        @else
-                                            <img src="{{ asset('public/assets/images/calacatta.png') }}" alt="{{ $cat }}">
-                                        @endif
-                                        <div class="category-overlay">
-                                            <span class="category-name">{{ $cat }}</span>
-                                        </div>
-                                    </div>
-                                </a>
-                            @endforeach
-                        </div>
+                        @php
+                            $categories = [
+                                'Italian marbles',
+                                'Indian Marble',
+                                'Granites',
+                                'Limestones',
+                                'quartzites',
+                                'Sandstones',
+                                'Onyx'
+                            ];
+                        @endphp
+                        @foreach($categories as $cat)
+                            <a href="{{ route('products.index', ['category' => $cat]) }}">{{ $cat }}</a>
+                        @endforeach
                     </div>
                 </li>
                 <li><a href="{{ route('home') }}#philosophy">History</a></li>
