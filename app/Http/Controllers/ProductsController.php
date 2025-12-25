@@ -22,14 +22,16 @@ class ProductsController extends Controller
 
         $catalogs = $query->paginate($perPage);
 
-        // Get all categories for filter
-        $categories = Catalog::select('type')
-            ->whereNotNull('type')
-            ->where('type', '!=', '')
-            ->where('status', true)
-            ->distinct()
-            ->orderBy('type')
-            ->pluck('type');
+        // Fixed categories
+        $categories = [
+            'Italian marbles',
+            'Indian Marble',
+            'Granites',
+            'Limestones',
+            'quartzites',
+            'Sandstones',
+            'Onyx'
+        ];
 
         return view('products', compact('catalogs', 'categories', 'category'));
     }
