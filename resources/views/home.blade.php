@@ -12,10 +12,93 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* WhatsApp Icon Styling */
+        /* Dropdown Menu Styling */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: rgba(26, 26, 26, 0.98);
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            z-index: 1000;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .dropdown-content a {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 12px 20px;
+            text-decoration: none;
+            display: block;
+            transition: all 0.3s;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dropdown-content a:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-content a:hover {
+            background-color: rgba(201, 169, 97, 0.2);
+            color: #c9a961;
+            padding-left: 25px;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropbtn i {
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+
+        /* Floating WhatsApp Button */
+        .floating-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            text-decoration: none;
+            box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+            z-index: 9998;
+            transition: all 0.3s ease;
+            animation: pulse 2s infinite;
+        }
+
+        .floating-whatsapp:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(37, 211, 102, 0.7);
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 4px 30px rgba(37, 211, 102, 0.8);
+            }
+        }
+
+        /* WhatsApp Icon on Cards */
         .whatsapp-icon {
             position: absolute;
             top: 15px;
@@ -102,11 +185,27 @@
         <nav>
             <div class="logo">LITHOS</div>
             <ul class="nav-links">
-                <li><a href="#philosophy">Philosophy</a></li>
-                <li><a href="#legacy">Heritage</a></li>
-                <li><a href="#collection">Collection</a></li>
-                <li><a href="#portfolio">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li class="dropdown">
+                    <a href="#collection" class="dropbtn">
+                        Products <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="{{ route('home') }}?category=Italian+Marbles">Italian Marbles</a>
+                        <a href="{{ route('home') }}?category=Indian+Marble">Indian Marble</a>
+                        <a href="{{ route('home') }}?category=Granites">Granites</a>
+                        <a href="{{ route('home') }}?category=Limestones">Limestones</a>
+                        <a href="{{ route('home') }}?category=Quartzites">Quartzites</a>
+                        <a href="{{ route('home') }}?category=Sandstones">Sandstones</a>
+                        <a href="{{ route('home') }}?category=Onyx">Onyx</a>
+                    </div>
+                </li>
+                <li><a href="#philosophy">History</a></li>
+                <li><a href="#legacy">Culture</a></li>
+                <li><a href="#portfolio">Testimonials</a></li>
+                <li><a href="#services">Blog</a></li>
+                <li><a href="#contact">Contact Us</a></li>
+                <li><a href="#process">About Us</a></li>
             </ul>
             <div class="menu-btn-mobile">Menu</div>
         </nav>
@@ -151,7 +250,7 @@
                     <a href="#process" class="text-link">Discover the Source</a>
                 </div>
                 <div class="legacy-image reveal-image">
-                    <img src="{{ asset('assets/images/legacy.png') }}" alt="Historic Quarry" data-tilt>
+                    <img src="{{ asset('public/assets/images/legacy.png') }}" alt="Historic Quarry" data-tilt>
                 </div>
             </div>
         </section>
@@ -168,7 +267,7 @@
                     @forelse($catalogs as $index => $catalog)
                         <div class="card reveal-card tilt-card delay-{{ $index % 4 }}">
                             <div class="card-image">
-                                <img src="{{ asset($catalog->image) }}" alt="{{ $catalog->name }}">
+                                <img src="{{ asset('public/' . $catalog->image) }}" alt="{{ $catalog->name }}">
 
                                 <!-- WhatsApp Icon -->
                                 @php
@@ -242,21 +341,21 @@
                 </div>
                 <div class="portfolio-grid">
                     <div class="portfolio-item large reveal-card">
-                        <img src="{{ asset('assets/images/kitchen.png') }}" alt="Luxury Kitchen">
+                        <img src="{{ asset('public/assets/images/kitchen.png') }}" alt="Luxury Kitchen">
                         <div class="p-info">
                             <h5>Private Residence</h5>
                             <span>New York, NY</span>
                         </div>
                     </div>
                     <div class="portfolio-item tall reveal-card delay-1">
-                        <img src="{{ asset('assets/images/bathroom.png') }}" alt="Luxury Bathroom">
+                        <img src="{{ asset('public/assets/images/bathroom.png') }}" alt="Luxury Bathroom">
                         <div class="p-info">
                             <h5>Penthouse Spa</h5>
                             <span>Dubai, UAE</span>
                         </div>
                     </div>
                     <div class="portfolio-item wide reveal-card delay-2">
-                        <img src="{{ asset('assets/images/showroom.png') }}" alt="Showroom">
+                        <img src="{{ asset('public/assets/images/showroom.png') }}" alt="Showroom">
                         <div class="p-info">
                             <h5>Flagship Gallery</h5>
                             <span>Milan, Italy</span>
@@ -295,7 +394,7 @@
         <!-- Process (Dark) -->
         <section class="process" id="process">
             <div class="process-img reveal-image">
-                <img src="{{ asset('assets/images/artisan.png') }}" alt="Artisan Working">
+                <img src="{{ asset('public/assets/images/artisan.png') }}" alt="Artisan Working">
             </div>
             <div class="process-text reveal-text">
                 <span class="section-label">Craftsmanship</span>
@@ -343,6 +442,16 @@
             </div>
         </section>
     </main>
+
+    <!-- Floating WhatsApp Button -->
+    @php
+        $floatingWhatsappNumber = \App\Models\Setting::get('whatsapp_number', '919876543210');
+        $floatingWhatsappMessage = \App\Models\Setting::get('whatsapp_message', "Hi, I'm interested in your marble collection.");
+    @endphp
+    <a href="https://wa.me/{{ $floatingWhatsappNumber }}?text={{ urlencode($floatingWhatsappMessage) }}"
+        class="floating-whatsapp" target="_blank" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
 
     <footer>
         <div class="footer-grid">
@@ -456,10 +565,10 @@
         // Load More Functionality
         const loadMoreBtn = document.getElementById('load-more-btn');
         if (loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', function() {
+            loadMoreBtn.addEventListener('click', function () {
                 const page = this.getAttribute('data-page');
                 const btn = this;
-                
+
                 btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i>Loading...';
                 btn.disabled = true;
 
@@ -468,36 +577,36 @@
                         'X-Requested-With': 'XMLHttpRequest'
                     }
                 })
-                .then(response => response.json())
-                .then(data => {
-                    const grid = document.getElementById('catalog-grid');
-                    const tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = data.html;
-                    
-                    // Append new cards
-                    while (tempDiv.firstChild) {
-                        grid.appendChild(tempDiv.firstChild);
-                    }
+                    .then(response => response.json())
+                    .then(data => {
+                        const grid = document.getElementById('catalog-grid');
+                        const tempDiv = document.createElement('div');
+                        tempDiv.innerHTML = data.html;
 
-                    // Update button
-                    if (data.hasMore) {
-                        btn.setAttribute('data-page', parseInt(page) + 1);
+                        // Append new cards
+                        while (tempDiv.firstChild) {
+                            grid.appendChild(tempDiv.firstChild);
+                        }
+
+                        // Update button
+                        if (data.hasMore) {
+                            btn.setAttribute('data-page', parseInt(page) + 1);
+                            btn.innerHTML = 'Load More <i class="fas fa-arrow-down ms-2"></i>';
+                            btn.disabled = false;
+                        } else {
+                            btn.remove();
+                        }
+
+                        // Re-observe new cards for animations
+                        document.querySelectorAll('.reveal-card').forEach(el => {
+                            observer.observe(el);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
                         btn.innerHTML = 'Load More <i class="fas fa-arrow-down ms-2"></i>';
                         btn.disabled = false;
-                    } else {
-                        btn.remove();
-                    }
-
-                    // Re-observe new cards for animations
-                    document.querySelectorAll('.reveal-card').forEach(el => {
-                        observer.observe(el);
                     });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    btn.innerHTML = 'Load More <i class="fas fa-arrow-down ms-2"></i>';
-                    btn.disabled = false;
-                });
             });
         }
     </script>

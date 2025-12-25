@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .detail-section {
@@ -241,7 +241,7 @@
         <div class="detail-container">
             <div class="detail-grid">
                 <div class="detail-image">
-                    <img src="{{ asset($catalog->image) }}" alt="{{ $catalog->name }}">
+                    <img src="{{ asset('public/' . $catalog->image) }}" alt="{{ $catalog->name }}">
                 </div>
 
                 <div class="detail-content">
@@ -306,7 +306,7 @@
                     <div class="related-grid">
                         @foreach($related_catalogs as $related)
                             <div class="related-card">
-                                <img src="{{ asset($related->image) }}" alt="{{ $related->name }}">
+                                <img src="{{ asset('public/' . $related->image) }}" alt="{{ $related->name }}">
                                 <div class="related-card-info">
                                     <h4>{{ $related->name }}</h4>
                                     <p>{{ $related->origin }}</p>
