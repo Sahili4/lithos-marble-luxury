@@ -218,6 +218,45 @@
         </nav>
     </header>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="mobile-menu-close" id="closeMobileMenu">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="mobile-menu-content">
+            <ul class="mobile-nav-links">
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li class="mobile-dropdown">
+                    <a href="#" class="mobile-dropdown-toggle">
+                        Products <i class="fas fa-chevron-down"></i>
+                    </a>
+                    <div class="mobile-dropdown-content">
+                        @php
+                            $categories = [
+                                'Italian marbles',
+                                'Indian Marble',
+                                'Granites',
+                                'Limestones',
+                                'quartzites',
+                                'Sandstones',
+                                'Onyx'
+                            ];
+                        @endphp
+                        @foreach($categories as $cat)
+                            <a href="{{ route('products.index', ['category' => $cat]) }}">{{ $cat }}</a>
+                        @endforeach
+                    </div>
+                </li>
+                <li><a href="{{ route('home') }}#philosophy">History</a></li>
+                <li><a href="{{ route('home') }}#legacy">Culture</a></li>
+                <li><a href="{{ route('home') }}#portfolio">Testimonials</a></li>
+                <li><a href="{{ route('home') }}#services">Blog</a></li>
+                <li><a href="{{ route('home') }}#contact">Contact Us</a></li>
+                <li><a href="{{ route('home') }}#process">About Us</a></li>
+            </ul>
+        </div>
+    </div>
+
     <main>
         <!-- Hero Section -->
         <section class="hero" id="home">
@@ -503,6 +542,56 @@
     </footer>
 
     <script>
+        // Mobile Menu Functionality
+        const menuBtn = document.querySelector('.menu-btn-mobile');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
+
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (closeMobileMenu) {
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        // Close menu when clicking outside
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Mobile dropdown toggle
+        if (mobileDropdownToggle) {
+            mobileDropdownToggle.addEventListener('click', (e) => {
+                e.preventDefault();
+                const dropdownContent = mobileDropdownToggle.nextElementSibling;
+                dropdownContent.classList.toggle('active');
+                mobileDropdownToggle.classList.toggle('active');
+            });
+        }
+
+        // Close mobile menu when clicking on a link (except dropdown toggle)
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            if (!link.classList.contains('mobile-dropdown-toggle')) {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                });
+            }
+        });
+
         // Preloader
         window.addEventListener('load', () => {
             const preloader = document.querySelector('.preloader');

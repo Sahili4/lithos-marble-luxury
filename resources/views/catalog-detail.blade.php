@@ -237,6 +237,25 @@
         </nav>
     </header>
 
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenu">
+        <div class="mobile-menu-close" id="closeMobileMenu">
+            <i class="fas fa-times"></i>
+        </div>
+        <div class="mobile-menu-content">
+            <ul class="mobile-nav-links">
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('products.index') }}">Products</a></li>
+                <li><a href="{{ route('home') }}#philosophy">History</a></li>
+                <li><a href="{{ route('home') }}#legacy">Culture</a></li>
+                <li><a href="{{ route('home') }}#portfolio">Testimonials</a></li>
+                <li><a href="{{ route('home') }}#services">Blog</a></li>
+                <li><a href="{{ route('home') }}#contact">Contact Us</a></li>
+                <li><a href="{{ route('home') }}#process">About Us</a></li>
+            </ul>
+        </div>
+    </div>
+
     <section class="detail-section">
         <div class="detail-container">
             <div class="detail-grid">
@@ -347,6 +366,45 @@
             <div class="copyright">&copy; 2024 LITHOS Collection. All rights reserved.</div>
         </div>
     </footer>
+
+    <script>
+        // Mobile Menu Functionality
+        const menuBtn = document.querySelector('.menu-btn-mobile');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+
+        if (menuBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        }
+
+        if (closeMobileMenu) {
+            closeMobileMenu.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        }
+
+        // Close menu when clicking outside
+        if (mobileMenu) {
+            mobileMenu.addEventListener('click', (e) => {
+                if (e.target === mobileMenu) {
+                    mobileMenu.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        }
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+    </script>
 </body>
 
 </html>
