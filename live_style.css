@@ -231,42 +231,6 @@ nav {
     color: #fff;
     z-index: 101;
     position: relative;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    padding: 10px 20px;
-    border-radius: 25px;
-    transition: all 0.3s ease;
-    min-width: 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.menu-btn-mobile:hover {
-    border-color: var(--accent-gold);
-    color: var(--accent-gold);
-}
-
-.menu-btn-mobile .menu-text {
-    display: inline-block;
-    opacity: 1;
-    transition: opacity 0.3s ease;
-}
-
-.menu-btn-mobile .menu-icon {
-    display: none;
-    opacity: 0;
-    font-size: 20px;
-    transition: opacity 0.3s ease;
-}
-
-.menu-btn-mobile.active .menu-text {
-    display: none;
-    opacity: 0;
-}
-
-.menu-btn-mobile.active .menu-icon {
-    display: inline-block;
-    opacity: 1;
 }
 
 /* Mobile Menu Overlay */
@@ -364,6 +328,25 @@ nav {
     transform: scale(1.05);
 }
 
+.mobile-menu-close {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 32px;
+    color: #fff;
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.mobile-menu-close:hover {
+    color: var(--accent-gold);
+    transform: rotate(90deg);
+}
 
 /* Mobile Dropdown in Menu */
 .mobile-dropdown-content {
@@ -1077,7 +1060,7 @@ footer {
     }
 
     .menu-btn-mobile {
-        display: flex;
+        display: block;
     }
 
     .footer-grid {

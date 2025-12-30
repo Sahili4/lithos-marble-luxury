@@ -13,7 +13,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         .detail-section {
@@ -233,15 +233,15 @@
                 <li><a href="{{ route('home') }}#portfolio">Projects</a></li>
                 <li><a href="{{ route('home') }}#contact">Contact</a></li>
             </ul>
-            <div class="menu-btn-mobile">Menu</div>
+            <div class="menu-btn-mobile">
+                <span class="menu-text">MENU</span>
+                <i class="fas fa-times menu-icon"></i>
+            </div>
         </nav>
     </header>
 
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <div class="mobile-menu-close" id="closeMobileMenu">
-            <i class="fas fa-times"></i>
-        </div>
         <div class="mobile-menu-content">
             <ul class="mobile-nav-links">
                 <li><a href="{{ route('home') }}">Home</a></li>
@@ -260,7 +260,7 @@
         <div class="detail-container">
             <div class="detail-grid">
                 <div class="detail-image">
-                    <img src="{{ asset('public/' . $catalog->image) }}" alt="{{ $catalog->name }}">
+                    <img src="{{ asset($catalog->image) }}" alt="{{ $catalog->name }}">
                 </div>
 
                 <div class="detail-content">
@@ -325,7 +325,7 @@
                     <div class="related-grid">
                         @foreach($related_catalogs as $related)
                             <div class="related-card">
-                                <img src="{{ asset('public/' . $related->image) }}" alt="{{ $related->name }}">
+                                <img src="{{ asset($related->image) }}" alt="{{ $related->name }}">
                                 <div class="related-card-info">
                                     <h4>{{ $related->name }}</h4>
                                     <p>{{ $related->origin }}</p>
@@ -371,19 +371,22 @@
         // Mobile Menu Functionality
         const menuBtn = document.querySelector('.menu-btn-mobile');
         const mobileMenu = document.getElementById('mobileMenu');
-        const closeMobileMenu = document.getElementById('closeMobileMenu');
 
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-        }
-
-        if (closeMobileMenu) {
-            closeMobileMenu.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                const isActive = mobileMenu.classList.contains('active');
+                
+                if (isActive) {
+                    // Close menu
+                    mobileMenu.classList.remove('active');
+                    menuBtn.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                } else {
+                    // Open menu
+                    mobileMenu.classList.add('active');
+                    menuBtn.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
             });
         }
 
@@ -392,6 +395,7 @@
             mobileMenu.addEventListener('click', (e) => {
                 if (e.target === mobileMenu) {
                     mobileMenu.classList.remove('active');
+                    menuBtn.classList.remove('active');
                     document.body.style.overflow = 'auto';
                 }
             });
@@ -401,6 +405,7 @@
         document.querySelectorAll('.mobile-nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
+                menuBtn.classList.remove('active');
                 document.body.style.overflow = 'auto';
             });
         });

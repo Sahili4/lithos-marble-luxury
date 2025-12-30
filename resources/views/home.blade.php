@@ -12,7 +12,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;500&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('public/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* Dropdown Menu Styling */
@@ -214,15 +214,15 @@
                 <li><a href="{{ route('home') }}#contact">Contact Us</a></li>
                 <li><a href="{{ route('home') }}#process">About Us</a></li>
             </ul>
-            <div class="menu-btn-mobile">Menu</div>
+            <div class="menu-btn-mobile">
+                <span class="menu-text">MENU</span>
+                <i class="fas fa-times menu-icon"></i>
+            </div>
         </nav>
     </header>
 
     <!-- Mobile Menu Overlay -->
     <div class="mobile-menu-overlay" id="mobileMenu">
-        <div class="mobile-menu-close" id="closeMobileMenu">
-            <i class="fas fa-times"></i>
-        </div>
         <div class="mobile-menu-content">
             <ul class="mobile-nav-links">
                 <li><a href="{{ route('home') }}">Home</a></li>
@@ -296,7 +296,7 @@
                     <a href="#process" class="text-link">Discover the Source</a>
                 </div>
                 <div class="legacy-image reveal-image">
-                    <img src="{{ asset('public/assets/images/legacy.png') }}" alt="Historic Quarry" data-tilt>
+                    <img src="{{ asset('assets/images/legacy.png') }}" alt="Historic Quarry" data-tilt>
                 </div>
             </div>
         </section>
@@ -313,7 +313,7 @@
                     @forelse($catalogs as $index => $catalog)
                         <div class="card reveal-card tilt-card delay-{{ $index % 4 }}">
                             <div class="card-image">
-                                <img src="{{ asset('public/' . $catalog->image) }}" alt="{{ $catalog->name }}">
+                                <img src="{{ asset($catalog->image) }}" alt="{{ $catalog->name }}">
 
                                 <!-- WhatsApp Icon -->
                                 @php
@@ -387,21 +387,21 @@
                 </div>
                 <div class="portfolio-grid">
                     <div class="portfolio-item large reveal-card">
-                        <img src="{{ asset('public/assets/images/kitchen.png') }}" alt="Luxury Kitchen">
+                        <img src="{{ asset('assets/images/kitchen.png') }}" alt="Luxury Kitchen">
                         <div class="p-info">
                             <h5>Private Residence</h5>
                             <span>New York, NY</span>
                         </div>
                     </div>
                     <div class="portfolio-item tall reveal-card delay-1">
-                        <img src="{{ asset('public/assets/images/bathroom.png') }}" alt="Luxury Bathroom">
+                        <img src="{{ asset('assets/images/bathroom.png') }}" alt="Luxury Bathroom">
                         <div class="p-info">
                             <h5>Penthouse Spa</h5>
                             <span>Dubai, UAE</span>
                         </div>
                     </div>
                     <div class="portfolio-item wide reveal-card delay-2">
-                        <img src="{{ asset('public/assets/images/showroom.png') }}" alt="Showroom">
+                        <img src="{{ asset('assets/images/showroom.png') }}" alt="Showroom">
                         <div class="p-info">
                             <h5>Flagship Gallery</h5>
                             <span>Milan, Italy</span>
@@ -440,7 +440,7 @@
         <!-- Process (Dark) -->
         <section class="process" id="process">
             <div class="process-img reveal-image">
-                <img src="{{ asset('public/assets/images/artisan.png') }}" alt="Artisan Working">
+                <img src="{{ asset('assets/images/artisan.png') }}" alt="Artisan Working">
             </div>
             <div class="process-text reveal-text">
                 <span class="section-label">Craftsmanship</span>
@@ -545,20 +545,23 @@
         // Mobile Menu Functionality
         const menuBtn = document.querySelector('.menu-btn-mobile');
         const mobileMenu = document.getElementById('mobileMenu');
-        const closeMobileMenu = document.getElementById('closeMobileMenu');
         const mobileDropdownToggle = document.querySelector('.mobile-dropdown-toggle');
 
         if (menuBtn) {
             menuBtn.addEventListener('click', () => {
-                mobileMenu.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            });
-        }
+                const isActive = mobileMenu.classList.contains('active');
 
-        if (closeMobileMenu) {
-            closeMobileMenu.addEventListener('click', () => {
-                mobileMenu.classList.remove('active');
-                document.body.style.overflow = 'auto';
+                if (isActive) {
+                    // Close menu
+                    mobileMenu.classList.remove('active');
+                    menuBtn.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                } else {
+                    // Open menu
+                    mobileMenu.classList.add('active');
+                    menuBtn.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
             });
         }
 
@@ -567,6 +570,7 @@
             mobileMenu.addEventListener('click', (e) => {
                 if (e.target === mobileMenu) {
                     mobileMenu.classList.remove('active');
+                    menuBtn.classList.remove('active');
                     document.body.style.overflow = 'auto';
                 }
             });
@@ -587,6 +591,7 @@
             if (!link.classList.contains('mobile-dropdown-toggle')) {
                 link.addEventListener('click', () => {
                     mobileMenu.classList.remove('active');
+                    menuBtn.classList.remove('active');
                     document.body.style.overflow = 'auto';
                 });
             }
