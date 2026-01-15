@@ -6,7 +6,7 @@
 @section('content')
     <div class="row">
         <div class="col-lg-8">
-            <form action="{{ route('admin.settings.update') }}" method="POST">
+            <form action="{{ route('admin.settings.update') }}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <!-- Contact Settings -->
@@ -30,6 +30,15 @@
                                                 Use {product_name} and {product_url} as placeholders
                                             </small>
                                         @endif
+                                    @elseif($setting->type === 'image')
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if($setting->value)
+                                                <img src="{{ asset($setting->value) }}" alt="Current Logo"
+                                                    style="max-height: 50px; background: #eee; padding: 5px;">
+                                            @endif
+                                            <input type="file" class="form-control" id="{{ $setting->key }}"
+                                                name="images[{{ $setting->key }}]" accept="image/*">
+                                        </div>
                                     @else
                                         <input type="{{ $setting->type === 'number' ? 'number' : 'text' }}" class="form-control"
                                             id="{{ $setting->key }}" name="settings[{{ $setting->key }}]"
@@ -58,13 +67,25 @@
                                     <label for="{{ $setting->key }}" class="form-label">
                                         {{ ucwords(str_replace('_', ' ', $setting->key)) }}
                                     </label>
-                                    <input type="{{ $setting->type === 'number' ? 'number' : 'text' }}" class="form-control"
-                                        id="{{ $setting->key }}" name="settings[{{ $setting->key }}]"
-                                        value="{{ old('settings.' . $setting->key, $setting->value) }}">
-                                    @if($setting->key === 'catalogs_per_page')
-                                        <small class="text-muted">
-                                            Number of catalogs to show initially on homepage
-                                        </small>
+
+                                    @if($setting->type === 'image')
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if($setting->value)
+                                                <img src="{{ asset($setting->value) }}" alt="Current Logo"
+                                                    style="max-height: 50px; background: #eee; padding: 5px;">
+                                            @endif
+                                            <input type="file" class="form-control" id="{{ $setting->key }}"
+                                                name="images[{{ $setting->key }}]" accept="image/*">
+                                        </div>
+                                    @else
+                                        <input type="{{ $setting->type === 'number' ? 'number' : 'text' }}" class="form-control"
+                                            id="{{ $setting->key }}" name="settings[{{ $setting->key }}]"
+                                            value="{{ old('settings.' . $setting->key, $setting->value) }}">
+                                        @if($setting->key === 'catalogs_per_page')
+                                            <small class="text-muted">
+                                                Number of catalogs to show initially on homepage
+                                            </small>
+                                        @endif
                                     @endif
                                 </div>
                             @endforeach

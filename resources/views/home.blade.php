@@ -176,14 +176,16 @@
         </script>
     @endif
 
-    <!-- Cool Add-on 1: Luxury Preloader -->
     <div class="preloader">
-        <div class="loader-logo">LITHOS</div>
+        <div class="loader-logo">{{ \App\Models\Setting::get('company_name', 'LITHOS') }}</div>
     </div>
 
     <header>
         <nav>
-            <div class="logo">LITHOS</div>
+            <div class="logo">
+                <img src="{{ asset(\App\Models\Setting::get('site_logo', 'assets/IMG_6346.PNG')) }}"
+                    alt="{{ \App\Models\Setting::get('company_name', 'LITHOS') }}" style="max-height: 50px;">
+            </div>
             <ul class="nav-links">
                 <li><a href="{{ route('home') }}">Home</a></li>
                 <li class="dropdown">
@@ -346,7 +348,7 @@
                 </div>
 
                 @if($catalogs->hasMorePages())
-                    <div class="text-center mt-5">
+                    <div style="text-align: center; width: 100%; margin-top: 3rem;">
                         <button id="load-more-btn" class="cta-btn" data-page="2">
                             Load More <i class="fas fa-arrow-down ms-2"></i>
                         </button>
@@ -502,7 +504,10 @@
     <footer>
         <div class="footer-grid">
             <div class="footer-col brand-col">
-                <div class="logo">LITHOS</div>
+                <div class="logo">
+                    <img src="{{ asset(\App\Models\Setting::get('site_logo', 'assets/IMG_6346.PNG')) }}"
+                        alt="{{ \App\Models\Setting::get('company_name', 'LITHOS') }}" style="max-height: 60px;">
+                </div>
                 <p>Exquisite stone collections sourced from the world's most exclusive quarries. Elevating interiors
                     since 1985.</p>
             </div>
@@ -526,9 +531,10 @@
             </div>
             <div class="footer-col">
                 <h4>Contact</h4>
-                <p>123 Luxury Ave, Design District<br>Milan, Italy 20121</p>
-                <p class="contact-link">+39 02 1234 5678</p>
-                <p class="contact-link">concierge@lithos.com</p>
+                <p>{{ \App\Models\Setting::get('company_address', '123 Luxury Ave, Design District, Milan, Italy 20121') }}
+                </p>
+                <p class="contact-link">{{ \App\Models\Setting::get('company_mobile', '+39 02 1234 5678') }}</p>
+                <p class="contact-link">{{ \App\Models\Setting::get('company_email', 'concierge@lithos.com') }}</p>
                 <div class="social-links">
                     <a href="#">Instagram</a>
                     <a href="#">LinkedIn</a>
@@ -537,7 +543,8 @@
             </div>
         </div>
         <div class="footer-bottom">
-            <div class="copyright">&copy; 2024 LITHOS Collection. All rights reserved.</div>
+            <div class="copyright">&copy; {{ date('Y') }} {{ \App\Models\Setting::get('company_name', 'LITHOS') }}. All
+                rights reserved.</div>
         </div>
     </footer>
 

@@ -14,11 +14,13 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
-    /**
-     * Bootstrap any application services.
-     */
     public function boot(): void
     {
-        //
+        \Illuminate\Pagination\Paginator::useBootstrapFive();
+
+        // Fix asset URL inconsistency for Hostinger/Live environments
+        if (!app()->isLocal()) {
+            config(['app.asset_url' => url('/public')]);
+        }
     }
 }

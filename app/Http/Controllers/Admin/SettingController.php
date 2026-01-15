@@ -24,15 +24,34 @@ class SettingController extends Controller
     public function update(Request $request)
     {
         $validated = $request->validate([
-            'settings' => 'required|array',
+            'settings' => 'nullable|array',
             'settings.*' => 'nullable|string|max:1000',
+            'images' => 'nullable|array',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        foreach ($validated['settings'] as $key => $value) {
-            $setting = Setting::where('key', $key)->first();
-            if ($setting) {
-                $setting->update(['value' => $value]);
-                Cache::forget("setting_{$key}");
+        // Handle text settings
+        if ($request->has('settings')) {
+            foreach ($request->settings as $key => $value) {
+                $setting = Setting::where('key', $key)->first();
+                if ($setting) {
+                    $setting->update(['value' => $value]);
+                    Cache::forget("setting_{$key}");
+                }
+            }
+        }
+
+        // Handle image settings
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $key => $image) {
+                $setting = Setting::where('key', $key)->first();
+                if ($setting) {
+                    $filename = time() . '_' . $image->getClientOriginalName();
+                    $image->move(public_path('assets'), $filename);
+
+                    $setting->update(['value' => 'assets/' . $filename]);
+                    Cache::forget("setting_{$key}");
+                }
             }
         }
 
